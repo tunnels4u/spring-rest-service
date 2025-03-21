@@ -3,7 +3,10 @@ package com.softwaretunnel.spring_rest_service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -16,15 +19,16 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softwaretunnel.spring_rest_service.persistance.entity.Employee;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class RestServiceTest {
-	
+
 	@Value("${spring.web.rest.url}")
 	private String restUrl;
-	
+
 	@Test
 	void contextLoads() throws Exception {
 		assertThat(restUrl).isNotNull();
@@ -43,6 +47,20 @@ public class RestServiceTest {
 
 		try {
 
+			Employee employeeInResponse = callCreateEmployee(employee);
+
+			assertTrue(employeeInResponse.getFirstName().equals(employee.getFirstName()));
+			assertTrue(employeeInResponse.getLastName().equals(employee.getLastName()));
+			assertTrue(employeeInResponse.getId() != null && employeeInResponse.getId() != 0);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	private Employee callCreateEmployee(Employee employee) {
+		try {
 			// Convert object to JSON
 			ObjectMapper objectMapper = new ObjectMapper();
 			String jsonBody = objectMapper.writeValueAsString(employee);
@@ -61,9 +79,48 @@ public class RestServiceTest {
 				ObjectMapper responseObjectMapper = new ObjectMapper();
 				Employee employeeInResponse = responseObjectMapper.readValue(responseBody, Employee.class);
 
-				assertTrue(employeeInResponse.getFirstName().equals(employee.getFirstName()));
-				assertTrue(employeeInResponse.getLastName().equals(employee.getLastName()));
-				assertTrue(employeeInResponse.getId() != null && employeeInResponse.getId() != 0);
+				return employeeInResponse;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		return null;
+	}
+
+	@Test
+	public void testgetEmployees() {
+
+		// employee 1
+		Employee employee1 = new Employee();
+		employee1.setFirstName("Tom");
+		employee1.setLastName("Greg");
+
+		// employee 2
+		Employee employee2 = new Employee();
+		employee2.setFirstName("Sandra");
+		employee2.setLastName("David");
+
+		try {
+			callCreateEmployee(employee1);
+			callCreateEmployee(employee2);
+			
+			// create request
+			HttpGet request = new HttpGet(restUrl + "/get-employees");
+
+			// get response
+			try (CloseableHttpResponse response = client.execute(request)) {
+				int statusCode = response.getStatusLine().getStatusCode();
+				assertTrue(statusCode == HttpStatus.OK.value());
+
+				String responseBody = EntityUtils.toString(response.getEntity());
+				ObjectMapper responseObjectMapper = new ObjectMapper();
+				List<Employee> employees = responseObjectMapper.readValue(responseBody,
+						new TypeReference<List<Employee>>() {
+						});
+
+				assertTrue(employees.size() == 2);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

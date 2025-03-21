@@ -1,7 +1,10 @@
 package com.softwaretunnel.spring_rest_service.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,21 +29,27 @@ public class EmployeeController {
 			Employee employee = service.insertEmployeeRecord(newEmployee);
 			return new ResponseEntity<>(employee, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.OK);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
 	}
 
-//	  @GetMapping("/employees")
-//	  List<Employee> all() {
-//	    return repository.findAll();
-//	  }
-//	  // end::get-aggregate-root[]
-//
-//	  @PostMapping("/employees")
-//	  Employee newEmployee(@RequestBody Employee newEmployee) {
-//	    return repository.save(newEmployee);
-//	  }
+	@GetMapping("/get-employees")
+	ResponseEntity<List<Employee>> getEmployees() {
+		try {
+			List<Employee> employees = service.getEmployeeRecords();
+			return new ResponseEntity<>(employees, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+
+		}
+	}
+	// end::get-aggregate-root[]
+
+//	@PostMapping("/employees")
+//	Employee newEmployee(@RequestBody Employee newEmployee) {
+//		return repository.save(newEmployee);
+//	}
 //
 //	  // Single item
 //	  
