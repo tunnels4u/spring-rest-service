@@ -25,7 +25,7 @@ Feedback welcome!
 
 Now, you should be able to access the rest service at "http://localhost:8080/crudapi/welcome"
 
-Use it in combination with [java app front end](https://github.com/tunnels4u/javapp.git)
+If you would like, Use it in combination with [java app front end](https://github.com/tunnels4u/javapp.git)
 
 **End Points**
 
