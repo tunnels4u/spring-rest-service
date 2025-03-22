@@ -31,6 +31,11 @@ public class EmployeeController {
 		this.service = service;
 	}
 
+	@GetMapping("/welcome")
+	public ResponseEntity<String> getMessage() {
+		return new ResponseEntity<>("Hello, CRUD rest api service is running, feel free to use it. End points mentioned in README.md!", HttpStatus.OK);
+	}
+
 	@PostMapping("/create-employee")
 	public ResponseEntity<Employee> createEmployee(@RequestBody Employee newEmployee) {
 		log.info("createEmployee method called");
