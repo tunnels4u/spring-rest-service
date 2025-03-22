@@ -66,7 +66,7 @@ public class ServiceTest {
 			employeeInserted.setLastName(updatedLastName);
 
 			// update & check
-			employeeService.updateEmployeeRecords(employeeInserted);
+			employeeService.updateEmployeeRecord(employeeInserted);
 			List<Employee> updatedEmployees = employeeService.getEmployeeRecords();
 			assertTrue(updatedEmployees.size() == 1);
 			Employee updatedEmployee = employees.get(0);

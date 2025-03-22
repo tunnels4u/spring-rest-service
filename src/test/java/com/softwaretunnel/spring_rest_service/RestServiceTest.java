@@ -9,6 +9,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -60,6 +61,35 @@ public class RestServiceTest {
 		}
 	}
 
+	@Test
+	public void testUpdateEmployee() {
+
+		String firstName = "Tom";
+		String lastName = "Greg";
+		String updatedFirstName = "Tommy";
+		Employee employee = new Employee();
+		employee.setFirstName(firstName);
+		employee.setLastName(lastName);
+
+		try {
+
+			// rest call
+			Employee createdEmployee = callCreateEmployee(employee);
+			createdEmployee.setFirstName(updatedFirstName);
+
+			// rest call
+			Employee updatedEmployee = callUpdateEmployee(createdEmployee);
+
+			assertTrue(updatedEmployee.getFirstName().equals(createdEmployee.getFirstName()));
+			assertTrue(updatedEmployee.getLastName().equals(createdEmployee.getLastName()));
+			assertTrue(updatedEmployee.getId().equals(createdEmployee.getId()));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
 	private Employee callCreateEmployee(Employee employee) {
 		try {
 			// Convert object to JSON
@@ -68,6 +98,35 @@ public class RestServiceTest {
 
 			// create request
 			HttpPost request = new HttpPost(restUrl + "/create-employee");
+			request.setHeader("Content-Type", "application/json");
+			request.setEntity(new StringEntity(jsonBody)); // Set JSON entity
+
+			// get response
+			try (CloseableHttpResponse response = client.execute(request)) {
+				int statusCode = response.getStatusLine().getStatusCode();
+				assertTrue(statusCode == HttpStatus.OK.value());
+
+				String responseBody = EntityUtils.toString(response.getEntity());
+				ObjectMapper responseObjectMapper = new ObjectMapper();
+				Employee employeeInResponse = responseObjectMapper.readValue(responseBody, Employee.class);
+
+				return employeeInResponse;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		return null;
+	}
+
+	private Employee callUpdateEmployee(Employee employeeToUpdate) {
+		try {
+			// Convert object to JSON
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonBody = objectMapper.writeValueAsString(employeeToUpdate);
+
+			// create request
+			HttpPut request = new HttpPut(restUrl + "/create-employee/" + employeeToUpdate.getId());
 			request.setHeader("Content-Type", "application/json");
 			request.setEntity(new StringEntity(jsonBody)); // Set JSON entity
 
@@ -103,6 +162,7 @@ public class RestServiceTest {
 		employee2.setLastName("David");
 
 		try {
+			// rest call
 			callCreateEmployee(employee1);
 			callCreateEmployee(employee2);
 
@@ -151,10 +211,11 @@ public class RestServiceTest {
 		employee1.setLastName("Greg");
 
 		try {
+			// rest call
 			Employee createdEmployee = callCreateEmployee(employee1);
 
 			// create request
-			HttpDelete request = new HttpDelete(restUrl + "/employee/" + createdEmployee.getId());
+			HttpDelete request = new HttpDelete(restUrl + "/delete-employee/" + createdEmployee.getId());
 
 			// get response
 			try (CloseableHttpResponse response = client.execute(request)) {

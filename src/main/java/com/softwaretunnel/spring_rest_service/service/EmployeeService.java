@@ -30,15 +30,14 @@ public class EmployeeService {
 
 	}
 
-	public void updateEmployeeRecords(Employee employee) throws Exception {
+	public Employee updateEmployeeRecord(Employee employee) throws Exception {
 
 		try {
-			employeeRepository.save(employee);
+			return employeeRepository.save(employee);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-
 	}
 
 	public void deleteEmployeeRecord(Long id) throws Exception {
