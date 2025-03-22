@@ -35,7 +35,8 @@ Now, you should be able to access the rest service at "http://localhost:8080/cru
 
 ## How to stop it?
 
-- mvn --stop
+Execute on your terminal,
+- Ctrl + C
 
 Now, you won't be able to access the rest service at "http://localhost:8080/crudapi/welcome"
 
