@@ -1,9 +1,11 @@
-# java_spring-boot_h2 tunnel
+# java_spring-boot_rest_service
 
-This is a free to reuse - end to end basic(CRUD) app using "java swing, spring boot, spring-data-jpa and h2 database" with maven. 
+This is a free to reuse - end to end basic(CRUD) rest service using "java, spring boot, spring web, spring-data-jpa and h2 database" with maven. 
 Please also have a look at the license file.
 
 If you find it is useful for you and the community and more end to end applications should be developed, please consider hitting that sponsorship button on the right! or if you feel like, just buy me a coffee!
+
+Feedback welcome!
 
 ## How to run it?
 
@@ -16,17 +18,26 @@ If you find it is useful for you and the community and more end to end applicati
 **Run following commands in your terminal**
 
 -  cd path_where_you_wantto_keep_the_project/
--  git clone https://github.com/tunnels4u/javaapp_spring_h2.git
--  cd javaapp_spring_h2
+-  git clone https://github.com/tunnels4u/spring-rest-service.git
+-  cd spring-rest-service
 -  mvn compile
 -  mvn exec:java
 
-**Demo**
+Now, you should be able to access the rest service at "http://localhost:8080/crudapi/welcome"
 
-- ![Demo](./java_h2_demo/demo.png?raw=true "Demo")
-- ![Add Employee](./java_h2_demo/add_employee.png?raw=true "Add Employee")
-- ![Save Employee](./java_h2_demo/save.png?raw=true "Save Employee")
-- ![Edit Record](./java_h2_demo/edit_record.png?raw=true "Edit Record")
-- ![Delete Record](./java_h2_demo/delete_record.png?raw=true "Delete Record")
-- ![Deleted Record](./java_h2_demo/record_deleted.png?raw=true "Delete Record")
+**End Points**
+
+- /welcome [GET mapping]
+- /create-employee [POST mapping]
+- /get-employees [GET mapping]
+- /delete-employee/{id} [DELETE mapping]
+- /update-employee [PUT mapping]
+
+## How to stop it?
+
+- mvn --stop
+
+Now, you won't be able to access the rest service at "http://localhost:8080/crudapi/welcome"
+
+
 
