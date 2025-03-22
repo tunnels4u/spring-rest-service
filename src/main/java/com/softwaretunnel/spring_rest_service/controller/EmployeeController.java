@@ -59,8 +59,8 @@ public class EmployeeController {
 		}
 	}
 
-	@PutMapping("/update-employee/{id}")
-	ResponseEntity<Employee> replaceEmployee(@RequestBody Employee employeeToUpdate, @PathVariable Long id) {
+	@PutMapping("/update-employee")
+	ResponseEntity<Employee> replaceEmployee(@RequestBody Employee employeeToUpdate) {
 
 		try {
 			Employee updatedEmployee = service.updateEmployeeRecord(employeeToUpdate);

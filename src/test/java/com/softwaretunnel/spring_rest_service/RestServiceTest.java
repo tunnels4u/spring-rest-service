@@ -17,8 +17,6 @@ import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -126,7 +124,7 @@ public class RestServiceTest {
 			String jsonBody = objectMapper.writeValueAsString(employeeToUpdate);
 
 			// create request
-			HttpPut request = new HttpPut(restUrl + "/create-employee/" + employeeToUpdate.getId());
+			HttpPut request = new HttpPut(restUrl + "/update-employee");
 			request.setHeader("Content-Type", "application/json");
 			request.setEntity(new StringEntity(jsonBody)); // Set JSON entity
 
