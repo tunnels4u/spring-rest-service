@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import com.softwaretunnel.spring_rest_service.persistance.entity.Employee;
 import com.softwaretunnel.spring_rest_service.service.EmployeeService;
 
 @RestController
+@Scope("prototype")
 @RequestMapping("/crudapi")
 public class EmployeeController {
 

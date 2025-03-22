@@ -4,11 +4,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import com.softwaretunnel.spring_rest_service.persistance.entity.Employee;
 import com.softwaretunnel.spring_rest_service.repository.EmployeeRepository;
 
 @Service
+@Scope("prototype")
 public class EmployeeService {
 
 	@Autowired
