@@ -42,7 +42,7 @@ public class ServiceTest {
 			assertTrue(employeeInserted.getId() != null && employeeInserted.getId() != 0);
 
 			// flush
-			employeeService.deleteEmployeeRecords(employeeInserted);
+			employeeService.deleteEmployeeRecord(employeeInserted.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -73,7 +73,7 @@ public class ServiceTest {
 			assertTrue(updatedEmployee.getLastName().equals(updatedLastName));
 
 			// flush
-			employeeService.deleteEmployeeRecords(employeeInserted);
+			employeeService.deleteEmployeeRecord(employeeInserted.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -95,7 +95,7 @@ public class ServiceTest {
 			Employee employeeInserted = employees.get(0);
 
 			// delete & check
-			employeeService.deleteEmployeeRecords(employeeInserted);
+			employeeService.deleteEmployeeRecord(employeeInserted.getId());
 			List<Employee> insertedEmployees = employeeService.getEmployeeRecords();
 			assertTrue(insertedEmployees.size() == 0);
 		} catch (Exception e) {
@@ -124,8 +124,8 @@ public class ServiceTest {
 			assertTrue(employees.size() == 2);
 
 			// flush
-			employeeService.deleteEmployeeRecords(employees.get(0));
-			employeeService.deleteEmployeeRecords(employees.get(1));
+			employeeService.deleteEmployeeRecord(employees.get(0).getId());
+			employeeService.deleteEmployeeRecord(employees.get(1).getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);

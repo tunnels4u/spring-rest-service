@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -89,7 +90,7 @@ public class RestServiceTest {
 	}
 
 	@Test
-	public void testgetEmployees() {
+	public void testGetEmployees() {
 
 		// employee 1
 		Employee employee1 = new Employee();
@@ -104,7 +105,19 @@ public class RestServiceTest {
 		try {
 			callCreateEmployee(employee1);
 			callCreateEmployee(employee2);
-			
+
+			List<Employee> employees = getEmployees();
+
+			assertTrue(employees.size() == 2);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	private List<Employee> getEmployees() {
+		try {
 			// create request
 			HttpGet request = new HttpGet(restUrl + "/get-employees");
 
@@ -119,7 +132,37 @@ public class RestServiceTest {
 						new TypeReference<List<Employee>>() {
 						});
 
-				assertTrue(employees.size() == 2);
+				return employees;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		return null;
+	}
+
+	@Test
+	public void testDeleteEmployee() {
+
+		// employee 1
+		Employee employee1 = new Employee();
+		employee1.setFirstName("Tom");
+		employee1.setLastName("Greg");
+
+		try {
+			Employee createdEmployee = callCreateEmployee(employee1);
+
+			// create request
+			HttpDelete request = new HttpDelete(restUrl + "/employee/" + createdEmployee.getId());
+
+			// get response
+			try (CloseableHttpResponse response = client.execute(request)) {
+				int statusCode = response.getStatusLine().getStatusCode();
+				assertTrue(statusCode == HttpStatus.OK.value());
+
+				List<Employee> employees = getEmployees();
+				assertTrue(employees.size() == 0);
 
 			}
 		} catch (Exception e) {

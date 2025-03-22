@@ -41,10 +41,10 @@ public class EmployeeService {
 
 	}
 
-	public void deleteEmployeeRecords(Employee employee) throws Exception {
+	public void deleteEmployeeRecord(Long id) throws Exception {
 
 		try {
-			employeeRepository.delete(employee);
+			employeeRepository.deleteById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
