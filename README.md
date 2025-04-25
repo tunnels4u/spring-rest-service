@@ -3,7 +3,13 @@
 This is a free to reuse - basic(CRUD) rest service using "java, spring boot, spring web, spring-data-jpa and h2 database" with maven. 
 Please also have a look at the license file.
 
-If you find it is useful for you and the community and more end to end applications should be developed, please consider hitting that sponsorship button on the right! or if you feel like, just buy me a coffee!
+If you find it is useful for you and the community and more end to end applications should be developed, 
+please leave a star on the repo.
+
+I am an independent developer, if you want to support my work/time
+consider hitting that sponsorship button on the right!
+or
+if you feel like, just buy me a coffee!
 
 Feedback welcome!
 
